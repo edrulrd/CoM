@@ -55,7 +55,7 @@ Fork project on github:
 
 Then sign-in to your github.com account and click the ‘pull request’ button from the https://github.com/edrulrd/CoM repository.
 
-## Credits
+#### Credits
 
 Inspiration for maintaining localized, nitty-gritty change logs of this type came from Philip Smith in the 1990's.
 ----
