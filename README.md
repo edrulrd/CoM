@@ -9,7 +9,7 @@ Change of (system's) Management - bash utility program to document system admini
 
 Access to the **CoM** command is controlled via group membership.  You do not need to be the superuser to use it.
 
-Note that recording information about the change is completely asynchronous and separate from making the change, and this program's only purpose is just to document the changes being implemented.  It simply adds the documentation you specify during or after a change and thus, could be used to record information about any desired event.
+Note that recording information about the change is completely asynchronous and separate from making the change, and this program's only purpose is just to document the changes being implemented.  It simply adds the documentation that you provde during or after a change and thus, could be used to record information about any desired event.
 
 ## Purpose
 
@@ -43,14 +43,14 @@ Once downloaded, the configure script should be executed to create a Makefile:
 
     ./configure
 
-The configure program defines the locations in the filesystem where the directory which will store the change logs will reside, along with where configuration files are to be placed.  Depending on if you are running as the superuser or not, different locations will be recommended.  It is not necessary that the configuration program be run as root if all the files will strictly be under the domain of the executing user (for example if the system it is being set up for is only used by the one user).  On the other hand, if more than one systems administrator could potentially make changes to a system, then CoM should be configured as *root*.  Note that after it is setup, executing CoM as root is not necessary, as write access to the change repository is provided using group access.  The permissions on this folder are defined to cause group ownership to be propagated to each file, thus allowing any member of the group to review and edit files therein.  Given the possible sensitivity of information in these change logs, members in the group should be restricted to persons responsible for making system administration changes to the system.  Oftentimes, using "wheel" or "sudo" (depending on your distro), can be suitable groups to select when installing.
+The configure program allows the user to define the location of the directory that will store the change logs, along with where configuration files are to be placed.  Depending on if you are running as the superuser or not, different locations will be recommended.  It is not necessary that the configuration program be run as root if all the files will strictly be under the domain of the executing user (for example if the system it is being set up for is only used by the one user).  On the other hand, if more than one systems administrator could potentially make changes to a system, then CoM should be configured as *root*.  Note that after it is set up, executing CoM as root is not necessary, as write access to the change repository is provided using group access.  The permissions on this folder are defined to cause group ownership to be propagated to each file, thus allowing any member of the group to review and edit files therein.  Given the possible sensitivity of information in these change logs, members in the group should be restricted to persons responsible for making system administration changes to the system.  Oftentimes, using "wheel" or "sudo" (depending on your distro), can be suitable groups to select when installing.
 
 
 After ./configure is run, a Makefile is created.  If the make command is installed on the system, (installing make is highly recommended), you can issue the 
 
     make -n install
 
-command to display what the Makefile will do when the command is issued without the -n option.  As usual for open source software, IT IS YOUR RESPONSIBILITY TO ENSURE THAT NOTHING UNTOWARD OCCURS WHEN THE MAKE COMMAND IS RUN.
+command to display what the Makefile will do when the command is issued again without the -n option.  As typical for open source software, IT IS YOUR RESPONSIBILITY TO ENSURE THAT NOTHING UNTOWARD OCCURS WHEN THE MAKE COMMAND IS RUN.
 
 After the `make install` command has run, **CoM** is ready to use.
 
@@ -64,15 +64,15 @@ Feel free to open a pull request to fix a problem yourself or to contribute a ne
 
 ## Contributing on GitHub
 
-To contribute to a project that is hosted on GitHub.com, you first would sign-up for a (free) account. Once signed in, go to the desired project and fork it.  You will then be able to clone your fork locally as indicated below, make any desired changes, then push it back to your GitHub account, and then issue a pull request to request the changes be integrated into the maintainer's source.
+To contribute to a project hosted on GitHub.com, you first would sign-up for a (free) account. Once signed in, go to the desired project and fork it.  You will then be able to clone your fork locally as indicated below, make any desired changes, then push it back to your GitHub account, and then issue a pull request to request the changes be integrated into the maintainer's source.
 
 Please try to keep pull requests as small as possible - one new feature or fix set per pull request is preferred. This makes it easier to review and discuss your contribution.  To summarize the git command-line flow:
 
-Fork project on github:
+Fork the project on github to your account, then on your test system:
 
     git clone https://github.com/your-github-userid/CoM
     cd CoM
-    repeat: (edit), (test) until OK
+    repeat: (edit) and (test) until OK
     git add (modified files)
     git commit -m 'Explanation of what was changed'
     git push origin master

@@ -3,4 +3,12 @@
 # 2015-08-17 - Initial code developed
 #
 # 2023-02-15 - preparation for general release on github
-
+#
+# 2023-12-27 - adjusted Makefile in regards to manpage permissions, and fixed typo.
+#
+# 2024-03-13
+#            - allow Regular Expression searches when using the -S option
+#            - changed "Procedures", to "Details" in the change log record
+#            - Makefile uses "printf" instead of "echo -e"
+#            - documentation changes
+#            - increased version to 0.92
