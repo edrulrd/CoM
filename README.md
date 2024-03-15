@@ -57,7 +57,7 @@ After the `make install` command has run, **CoM** is ready to use.
   
 ## Issue Tracker
 
-If you find a problem or bug, want to discuss feature requests, or have some bright new ideas, please create a new issue on our GitHub project page <https://github.com/CoM-Application/CoM/issues.>
+If you find a problem or bug, want to discuss feature requests, or have some bright new ideas, please create a new issue on our GitHub project page <https://github.com/CoM-Application/CoM/issues>.
 When using it, please ensure that any criticism you provide is constructive. Please do not use the issue tracker for general help and assistance with using CoM.
 
 Feel free to open a pull request to fix a problem yourself or to contribute a new feature. 
