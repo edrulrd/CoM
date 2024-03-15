@@ -5,7 +5,7 @@
 # Purpose: make it easy to document a change
 #
 # Author: Ed Drouillard on Aug 17, 2015
-COPYRIGHT="Copyright (C) 2015-2023 Ed Drouillard, BCS, edrulrd at hotmail.com"
+COPYRIGHT="Copyright (C) 2015-2024 Ed Drouillard, BCS, edrulrd at hotmail.com"
 #
 # The CoM Package is available at https://github.com/CoM-Application/CoM 
 #
@@ -38,7 +38,7 @@ function usage {
   echo "-l     show the most recent $PROGRAM change log file names and exit"
   echo "-L     show the folder location where we record $PROGRAM change log files and exit"
   echo "-s     show the summaries from the $PROGRAM change log files and exit"
-  echo "-S     [string] search the $PROGRAM change log files for the specified string"
+  echo "-S     [string] search the $PROGRAM change log files for the specified string. Regular Expression searches are supported"
   echo
   echo "Note: only 0 or 1 option is allowed."
 }
