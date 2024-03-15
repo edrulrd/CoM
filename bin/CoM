@@ -54,10 +54,10 @@ test ! -z "${DEBUG}" && echo PROGRAM is $PROGRAM
 # Execution procedure:
 # 1) If the program is called from the current directory or from a location that is not
 #    the designated Installed bin location according to the definition in default.conf,
-#    then the referenced library "etc" needs to be relative to it. 
+#    then the referenced library "etc" needs to be relative to it.
 #
 # 2) If the program is called from the installed location as defined by $CoM_Bin, then
-# the referenced library should be from the designated Installed locations.  In 
+# the referenced library should be from the designated Installed locations.  In
 # particular, if the program is installed, /usr/share/CoM/etc will be defined,
 # so we'll use that as an indicator as to where to load our variables from.
 #######################################################################################
@@ -100,10 +100,10 @@ fi
 
 
 
-# If we're not running from the Makefile Installed bin directory, then let's reset our variables 
+# If we're not running from the Makefile Installed bin directory, then let's reset our variables
 # from an etc folder relative to the bin file we're called from
 if [ "${MYPATH}" != "${CoM_Bin}" ]
-then 
+then
 	[ ! -z "${DEBUG}" ] && [ -f ${MYPATH}/etc/default.conf ] && echo executing ${MYPATH}/etc/default.conf
 	[ -f ${MYPATH}/etc/default.conf ] && . ${MYPATH}/etc/default.conf
 
@@ -129,7 +129,7 @@ of the following locations:
 	${MYPATH}/etc/local.conf
 
 Copy default.conf from the installation package into any of these locations,
-adjust as desired, and rerun ${PROGRAM}. 
+adjust as desired, and rerun ${PROGRAM}.
 MSG
 	exit 1
 fi
@@ -142,7 +142,7 @@ then
 	read i
 	case $i in
 		y|Y|'')
-			mkdir ${CoM_Lib} 
+			mkdir ${CoM_Lib}
 			if [ $? -ne 0 ]
 			then
 				echo "Folder creation failed - not permitted?"
@@ -168,13 +168,13 @@ do
 	test ! -z "${DEBUG}" && echo "Option is set to ${Option}"
 	case ${Option} in
 		e     ) CFG_FN="yes";; # if Filename is specified, then edit that file and then exit, we manually extract the Filename
-		v     ) echo ${PROGRAM} ${_VERSION}; exit 0;; 
+		v     ) echo ${PROGRAM} ${_VERSION}; exit 0;;
 		h     ) echo ${PROGRAM} ${_VERSION}; usage; exit 0;;
-		m     ) man ${MANDIR}/${PROGRAM}.8.gz; exit 0;; 
+		m     ) man ${MANDIR}/${PROGRAM}.8.gz; exit 0;;
 		s     ) CFG_SUMMARY="yes";; # dump the Summary lines from the CoM files
 		l     ) CFG_LIST="yes";; # list the last 10 CoM filenames
 		L     ) echo "${PROGRAM} Change Library is ${CoM_Lib}"; exit 0;; # Display the library that our changes go into
-		S     ) CFG_SEARCH="yes"; # search the CoM library for the (mandatory) string provided
+		S     ) CFG_SEARCH="yes"; # search the CoM library for the (mandatory) string provided. Note Regular Expressions can be used
 				findstr="${OPTARG}";; # set the string to search
 		*     ) echo "$(basename $0): Unimplemented command line option given"; usage; exit 1;;   # DEFAULT
 	esac
@@ -197,7 +197,7 @@ then
 	echo
 	\ls -1 ${FileForm} 2>/dev/null | while read i
 	do
-		printf "%s:\n" ${i};  grep "^Summary:" ${i} 
+		printf "%s:\n" ${i};  grep "^Summary:" ${i}
 		echo # separate with a blank line
 	done
 	exit 0
@@ -209,10 +209,10 @@ then
 	echo
 	\ls -1 ${FileForm} 2>/dev/null | while read i
 	do
-		if $(grep -q -i "${findstr}" ${i}) # silently check if string is present ignoring case
+		if $(grep -q -iE "${findstr}" ${i}) # silently check if string is present ignoring case
 		then
 			printf "%s:\n" ${i}  # only print filename and string if present
-			grep -i "${findstr}" ${i} 
+			grep -iE "${findstr}" ${i}
 			echo # separate with a blank line
 		fi
 	done
@@ -258,7 +258,7 @@ then
 	#first file of the day
 	Seq=$(printf '%04i' $Seq)
 else
-	#Next file 
+	#Next file
 	Seq=`echo $Lastone | cut -c 10-13`
 	Seq=`echo $Seq | sed 's/^0*//'` # get rid of leading zeroes so it doesn't think we're dealing in octal
 	Seq=$(($Seq+1))
@@ -313,37 +313,37 @@ $Reason
 [Affected File:
 {File: }
 {Change: }
-{Procedures:
+{Details:
 
 }
 
 {File: }
 {Change: }
-{Procedures:
+{Details:
 
 }
 
 {File: }
 {Change: }
-{Procedures:
+{Details:
 
 }
 
 {File: }
 {Change: }
-{Procedures:
+{Details:
 
 }
 
 {File: }
 {Change: }
-{Procedures:
+{Details:
 
 }
 
 {File: }
 {Change: }
-{Procedures:
+{Details:
 
 }
 ]
@@ -360,10 +360,10 @@ chown $SUDO_USER $Filename
 echo "Edit the file ($Filename)?: (Y|n)"
 read i
 case $i in
-	y|Y|'') 
+	y|Y|'')
 		case ${EDITOR} in
 			vi|vim)
-				${EDITOR} +/Procedures:/ +/^$/ $Filename # Go to 1st blank line after Procedures:
+				${EDITOR} +/Details:/ +/^$/ $Filename # Go to 1st blank line after Details:
 				;;
 			*)
 				${EDITOR} $Filename
