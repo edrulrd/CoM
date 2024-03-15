@@ -18,7 +18,7 @@
 # instead of wheel below. As an alternative, you may want to create a "CoM" group, and give access
 # to that group to the users you want to be able to record and view recorded changes.
 #
-# Many of the following settings are overridden when the configue program is run.
+# Many of the following settings are overridden when the configure program is run.
 CoM_GRP = sudo  # default for debian-based systems
 CoM_GRP = wheel # default for RHEL systems
 #
@@ -41,21 +41,21 @@ include .configure_answers.sh
 all: help
 
 help:
-	@echo "+------------------------------------------------+"
-	@echo "|  Utility program to save System Administration |"
-	@echo "|            changes on *nix like systems.       |"
-	@echo "|                                                |"
-	@echo "|                                                |"
-	@echo "|  Generic Makefile for CoM on all Linux systems |"
-	@echo "|                                                |"
-	@echo "|  help|install|uninstall|archive|clean|target   |"
-	@echo "+------------------------------------------------+"
+	@printf "%b\n" "+------------------------------------------------+"
+	@printf "%b\n" "|  Utility program to save System Administration |"
+	@printf "%b\n" "|            changes on *nix like systems.       |"
+	@printf "%b\n" "|                                                |"
+	@printf "%b\n" "|                                                |"
+	@printf "%b\n" "|  Generic Makefile for CoM on all Linux systems |"
+	@printf "%b\n" "|                                                |"
+	@printf "%b\n" "|  help|install|uninstall|archive|clean|target   |"
+	@printf "%b\n" "+------------------------------------------------+"
 
 
 install: Libs CoM Man
 
 Libs:
-	@echo -e "\033[1m== Installing CoM support folders ==\033[0;0m"
+	@printf "%b\n" "\033[1m== Installing CoM support folders ==\033[0;0m"
 
 	@if [ ! -d ${CoM_Lib} ]; \
 	then \
@@ -140,7 +140,7 @@ CoM:
 		chgrp ${CoM_GRP} ${BINDIR}/${product}; \
 		chmod u=rwx,g=rx,o-rwx ${BINDIR}/${product}; \
 		echo CoM command copied into ${BINDIR}; \
-		echo -e "\033[1m== CoM Installation complete ==\033[0;0m"; \
+		printf "%b\n" "\033[1m== CoM Installation complete ==\033[0;0m"; \
 	fi
 
 Man:
@@ -151,16 +151,17 @@ Man:
 			if ! mkdir -vp ${MANDIR}; \
 			then \
 				echo "ERROR: write access privileges insufficient to create ${MANDIR}. Exiting"; false; \
+			else \
+				chown ${OWNER} ${MANDIR}; \
+				chgrp ${CoM_GRP} ${MANDIR}; \
+				chmod ${PERMSD} ${MANDIR}; \
 			fi; \
 		fi; \
-		chown ${OWNER} ${MANDIR}; \
-		chgrp ${CoM_GRP} ${MANDIR}; \
-		chmod ${PERMSD} ${MANDIR}; \
 		cp -p doc/${product}.8.gz ${MANDIR};\
 		chmod ${PERMSF} ${MANDIR}/${product}.8.gz;\
 		chown ${OWNER} ${MANDIR}/${product}.8.gz; \
 		chgrp ${CoM_GRP} ${MANDIR}/${product}.8.gz; \
-		echo -e "\033[1m== CoM man pages installed ==\033[0;0m"; \
+		printf "%b\n" "\033[1m== CoM man pages installed ==\033[0;0m"; \
 	fi
 	
 
@@ -169,14 +170,21 @@ uninstall:
 		then : ; \
 		else  echo "ERROR: owner or superuser access is needed to remove system libraries."; exit 101;\
 	fi
-	@echo -e "\033[1m== Uninstalling CoM ==\033[0;0m"
+	@printf "%b\n" "\033[1m== Uninstalling CoM ==\033[0;0m"
 	@rm -fv ${BINDIR}/${product}
 	@rm -fv ${MANDIR}/${product}.8.gz
 	@echo Not deleting change records in ${CoM_Lib}
 	@echo Not deleting tailored configuration settings in ${ETCDIR}
-	@echo -e "\033[1m== CoM Uninstallation complete ==\033[0;0m"
+	@printf "%b\n" "\033[1m== CoM Uninstallation complete ==\033[0;0m"
 
 archive:
+	@echo "Copying installed configuration settings and Change Repository to /tmp/CoM_backup-${DATESV}.tar.gz"
+	@if [ -f /tmp/CoM_backup-${DATESV}.tar.gz ]; then rm -f /tmp/CoM_backup-${DATESV}.tar.gz; fi
+	tar czf /tmp/CoM_backup-${DATESV}.tar.gz .configure_answers.sh  ${BINDIR}/${product} ${SHRDIR}/default.conf ${ETCDIR}/local.conf ${MANDIR}/${product}.8.gz ${CoM_Lib};
+	@echo "gzip'ed tar archive (/tmp/CoM_backup-${DATESV}.tar.gz) created"
+
+src_archive:
+	@echo "Copying our configuration settings to /tmp/CoM.tar.gz"
 	@if [ -f /tmp/CoM.tar.gz ]; then rm -f /tmp/CoM.tar.gz; fi
 	tar czf /tmp/CoM.tar.gz configure Makefile bin/CoM doc/CoM.8.gz etc/default.conf etc/local.conf ChangeLog.txt LICENSE README.md
 	@echo "gzip'ed tar archive (/tmp/CoM.tar.gz) created"
